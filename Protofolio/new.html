@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dylan Chaniago - IT Infrastructure Portfolio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* Global Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0d0d0d, #1c1c1e);
+      color: #ffffff;
+      overflow-x: hidden;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    /* Loading Screen */
+    #loading-screen {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background-color: #0d0d0d;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.3s ease;
+    }
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #ff3b3f;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .navbar a {
+      color: inherit;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+      position: relative;
+    }
+
+    .navbar a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 100%;
+      height: 2px;
+      background-color: #ff3b3f;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s ease;
+    }
+
+    .navbar a:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    .toggle-mode {
+      cursor: pointer;
+      font-size: 20px;
+    }
+
+    /* About Section */
+    .about-section {
+      max-width: 800px;
+      margin: 80px auto 40px;
+      padding: 20px;
+      text-align: center;
+      background-color: #1c1c1e;
+      border-radius: 15px;
+      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .about-section h2 {
+      font-size: 2rem;
+      color: #ff3b3f;
+      margin-bottom: 20px;
+    }
+
+    .about-section p {
+      font-size: 1rem;
+      color: #cccccc;
+      line-height: 1.6;
+    }
+
+    /* Main Section */
+    .main-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 800px;
+      margin: 40px auto 80px;
+      padding: 20px;
+      background-color: #1c1c1e;
+      border-radius: 15px;
+      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    /* Profile Picture Styling with Parallax Hover */
+    .profile-pic {
+      max-width: 180px;
+      width: 100%;
+      border-radius: 10px;
+      margin-right: 20px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+      border: 3px solid #ff3b3f;
+      transform: translateZ(0);
+      transition: transform 0.3s ease;
+    }
+
+    .profile-pic:hover {
+      transform: scale(1.05) translateY(-5px);
+    }
+
+    .main-content {
+      flex: 1;
+      text-align: left;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      line-height: 1.2;
+      font-weight: bold;
+      color: #ff3b3f;
+    }
+
+    .description {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #cccccc;
+    }
+
+    /* CTA Button */
+    .cta-button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #ff3b3f;
+      color: #fff;
+      border-radius: 5px;
+      text-decoration: none;
+      margin-top: 20px;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .cta-button:hover {
+      background-color: #e03b3f;
+      transform: scale(1.05);
+    }
+
+    /* Social Media Icons */
+    .social-icons {
+      margin-top: 40px;
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    .social-icons a {
+      color: inherit;
+      font-size: 1.5rem;
+      transition: color 0.3s ease;
+    }
+
+    .social-icons a:hover {
+      color: #ff3b3f;
+    }
+
+    /* Project Section Styling */
+    .projects-section {
+      padding: 60px 20px;
+      max-width: 800px;
+      margin: auto;
+      text-align: center;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .projects-section h2 {
+      font-size: 2rem;
+      color: #ff3b3f;
+      margin-bottom: 20px;
+    }
+
+    /* Project Gallery */
+    .project-gallery {
+      display: flex;
+      gap: 15px;
+      overflow-x: auto;
+      padding: 20px 0;
+    }
+
+    .project-card {
+      min-width: 200px;
+      background: #333;
+      border-radius: 10px;
+      padding: 20px;
+      color: #ffffff;
+      text-align: center;
+      flex-shrink: 0;
+      transition: transform 0.3s, background-color 0.3s;
+    }
+
+    .project-card img {
+      max-width: 100%;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    .project-card h3 {
+      font-size: 1.2rem;
+      margin: 10px 0;
+      color: #ff3b3f;
+    }
+
+    .project-card p {
+      font-size: 0.9rem;
+      color: #cccccc;
+    }
+
+    .project-card:hover {
+      transform: scale(1.05);
+      background-color: #444;
+    }
+
+    /* Footer Styling */
+    .footer {
+      background-color: #1c1c1e;
+      color: #cccccc;
+      padding: 20px;
+      text-align: center;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    /* Contact Form */
+    .contact-section {
+      padding: 60px 20px;
+      max-width: 800px;
+      margin: auto;
+      text-align: center;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+    }
+
+    .contact-form button {
+      padding: 10px;
+      background-color: #ff3b3f;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .contact-form button:hover {
+      background-color: #e03b3f;
+    }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Loading Screen -->
+  <div id="loading-screen">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="navbar-links">
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="toggle-mode"><i class="fas fa-adjust"></i></div>
+  </div>
+
+  <!-- About Section -->
+  <section id="about" class="about-section reveal">
+    <h2>About Me</h2>
+    <p>
+      I am a bachelor's degree student in Informatics Engineering at Pamulang University and currently work at an IT consulting company. My academic background and professional experience in IT have equipped me with the skills to assist companies in developing and securing their IT infrastructure.
+    </p>
+  </section>
+
+  <!-- Main Section -->
+  <section class="main-section reveal">
+    <img src="dylan.jpg" alt="Dylan Chaniago" class="profile-pic">
+    <div class="main-content">
+      <h1>I'm <span>Dylan Chaniago</span></h1>
+      <p class="description">
+        As an IT infrastructure specialist and consultant, I am dedicated to optimizing and securing enterprise IT environments.
+      </p>
+      <a href="#contact" class="cta-button">Contact Me</a>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="projects-section reveal">
+    <h2>Projects</h2>
+    <div class="project-gallery">
+      <div class="project-card">
+        <img src="project1.jpg" alt="Project 1">
+        <h3>Project 1</h3>
+        <p>Network setup for a multinational corporation.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social Media Icons -->
+ <!-- Social Media Icons -->
+<div class="social-icons">
+  <a href="https://github.com" target="_blank"><i class="fab fa-github"></i></a>
+  <a href="https://www.linkedin.com/in/dylanchaniago/" target="_blank"><i class="fab fa-linkedin"></i></a>
+  <a href="https://www.instagram.com/dylanchaniago_/" target="_blank"><i class="fab fa-instagram"></i></a>
+  <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+</div>
+
+
+  <!-- Contact Section -->
+  <section id="contact" class="contact-section reveal">
+    <h2>Contact</h2>
+    <form class="contact-form">
+      <input type="text" placeholder="Your Name" required>
+      <input type="email" placeholder="Your Email" required>
+      <textarea rows="4" placeholder="Your Message" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2023 Dylan Chaniago. All rights reserved.</p>
+  </footer>
+
+  <!-- JavaScript for Dark Mode Toggle, Smooth Scroll, and Scroll Reveal -->
+  <script>
+    // Dark Mode Toggle
+    const toggleMode = document.querySelector('.toggle-mode');
+    const body = document.body;
+
+    toggleMode.addEventListener('click', () => {
+      body.classList.toggle('light-mode');
+    });
+
+    // Smooth Scrolling
+    document.querySelectorAll('.navbar a').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        document.getElementById(targetId).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    // Scroll Reveal
+    function revealOnScroll() {
+      const reveals = document.querySelectorAll('.reveal');
+      for (let i = 0; i < reveals.length; i++) {
+        const windowHeight = window.innerHeight;
+        const elementTop = reveals[i].getBoundingClientRect().top;
+        const elementVisible = 150;
+
+        if (elementTop < windowHeight - elementVisible) {
+          reveals[i].classList.add('active');
+        } else {
+          reveals[i].classList.remove('active');
+        }
+      }
+    }
+    window.addEventListener('scroll', revealOnScroll);
+
+    // Hide Loading Screen after page load
+    window.addEventListener('load', () => {
+      const loadingScreen = document.getElementById('loading-screen');
+      loadingScreen.style.opacity = '0';
+      setTimeout(() => loadingScreen.style.display = 'none', 300);
+    });
+  </script>
+
+</body>
+</html>
